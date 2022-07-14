@@ -56,11 +56,12 @@ for n in word4:
 print (*cnts)
 
 # 강사님 풀이-----------------------------------
-
-word_new1 = 'kiwi'
+# 1. 리스트에 담는다!
+word_new1 = 'banana'
 result = []
 
 for idx1 in range(len(word_new1)):
-    if word_new[idx1] == 'a':
+    if word_new1[idx1] == 'a':
+        # 리스트에 추가
         result.append(idx1)
 print(result)

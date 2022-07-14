@@ -18,7 +18,7 @@ print(cnt)
 word1 = 'apple'
 cnt1 = 0
 
-for word1 in 'aeiou':
-    cnt1 += 1
-
-print(cnt1)
+for char in word1:
+    if char in 'aeiou':
+        cnt1 += 1
+print('강사님 풀이', cnt1)
