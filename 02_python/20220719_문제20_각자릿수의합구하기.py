@@ -12,7 +12,7 @@ while number > 0:
 print(rest)
 
 
-# 강사님 풀이1
+# 강사님 풀이 - 아래 케이스 외에도 
 numbers = 123
 
 # numbers가 0일때 멈춤, 0이면 false이기 때문
@@ -24,11 +24,3 @@ while numbers:
     numbers //= 10
 
 print(result)
-
-# 강사님 풀이2
-numbers2 = 123
-while numbers2:
-    result2, remainder = divmod(numbers2, 10)
-    result2 += remainder
-
-print(result2)

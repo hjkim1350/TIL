@@ -1,0 +1,24 @@
+2022.08.04 이차원리스트
+
+순회
+1) 이중 for문을 이용한 행 우선 순회
+for i in range(3) # 행
+    for j in range(4) # 열
+        print(matrix[i][j], end=" ")
+
+2) 이중 for문을 이용한 열 우선 순회
+for i in range(4) # 열
+    for j in range(3) # 행
+        print(matrix[j][i], end=" ")
+
+
+전치(transpose): 행렬의 행과 열을 서로 맞바꾸는 것을 의미함.
+transposed_matrix = [[0] * 3 for _ in range(4)]
+
+for i in range(4):
+    for j in range(3):
+        transposed_matrix[i][j] = matrix[j][i] # 행, 열 맞바꾸기
+
+
+회전
+문제에서 이차원리스트를 왼쪽, 오른쪽으로 90도 회전하는 경우가 존재한다.

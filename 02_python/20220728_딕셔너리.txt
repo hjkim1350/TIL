@@ -1,0 +1,53 @@
+2022.07.28 딕셔너리
+
+딕셔너리는 해시테이블이라고도 함.
+
+딕셔너리는 언제 사용?
+- 리스트를 사용하기 힘든 경우
+- 데이터에 대한 빠른 접근 탐색이 필요한 경우
+- 현실 세계의 대부분의 데이터를 다룰 경우 (가장 대표적인건 json)
+
+딕셔너리[key] = value
+
+key 자체가 데이터가 될 수 있기 때문에 여러 데이터들의 갯수를 쉽게 셀 수 있는 자료형 중 하나임.
+내부에 key가 없으면 생성, 값이 변경되면 수정
+이 원리가 가능한 이유는 key가 존재하기 때문 !
+
+#Counting
+scores = ["A", "B", "A", "C", "C"]
+
+counter = {
+    "A": 0,
+    "B": 0,
+    "C": 0
+}
+
+for score in scores:
+    counter[score] += 1
+
+print(counter)
+
+
+⭐아니면, 패키지를 이용
+from collections import Counter
+
+scores = ["A", "B", "A", "C", "C"]
+easy_counter = Counter(scores)
+print(easy_counter)
+
+삭제 - 딕셔너리.pop(key, default)
+두번째 인자로 default 값을 지정하여 KeyError 방지 가능.
+
+조회 - .get() 이용할 수도 있고, dic_name[key값]으로 조회할 수 있음.
+이 두가지의 차이는? 키가 없을 때의 에러 유무 차이.
+.get()은 에러가 나지 않으나 return값을 None으로 줌.
+key값으로 조회했을때 없으면 에러를 반환함.
+
+딕셔너리명.get(user_input, "없으면메시지")로 값이 없는 경우를 대비할 수도 있음.
+
+
+딕셔너리 메서드
+1) .keys(): key 목록이 담긴 dict_keys 목록 반환
+2) .values(): value 목록이 담긴 dict_values 목록 반환
+3) .items(): (key, value) 쌍 목록이 담긴 dict_items 목록 반환
+

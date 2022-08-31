@@ -1,0 +1,19 @@
+2022.08.03 이차원 리스트
+
+이차원 리스트는 세상에 있는 많은 것들을 표현한다.
+이차원 리스트는 리스트를 원소로 가지는 리스트일뿐이다.
+
+matrix = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+print(matrix[0][0])
+
+두개의 위치를 가지고 있음.
+
+for문을 이용한 이중배열을 사용하여야 함.
+
+
+1) 2중 배열의 리스트 컴프리헨션을 이용한 선언
+
+from pprint import pprint
+
+matrix = [list(map(int, input().split())) for i in range(3)]
+pprint(matrix)
