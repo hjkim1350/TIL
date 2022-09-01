@@ -1,0 +1,36 @@
+/* 아래에 CSS를 작성해주세요. */
+.card_total {
+    width: 900px;
+}
+h2 {
+    text-align: center;
+}
+.top {
+    font-size: 12px;
+}
+.card {
+    width: 300px;
+    display: inline-block;
+}
+.image-style {
+    width: 300px;
+    border-radius: 15px;
+}
+.card_top {
+    letter-spacing: -1px;
+    margin-left: 10px;
+    font-size: 10px;
+    font-weight: bold;
+    color: darkgray;
+}
+.card_center {
+    letter-spacing: -1px;
+    margin-left: 10px;
+    font-weight: bold;
+}
+.card_bottom {
+    letter-spacing: -1px;
+    margin-left: 10px;
+    font-size: x-small;
+    color: gray;
+}
