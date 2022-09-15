@@ -19,3 +19,71 @@ body {
 .custom-toggler.navbar-toggler {
   border-color: rgb(255,102,203);
 } 
+
+/* home.html 하트 토글키1 */
+.checkbox-wrap { 
+  cursor: pointer;
+}
+
+/* home.html 하트 토글키2 */
+.checkbox-wrap .check-icon {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  background: url(./images/love.png) left center no-repeat;
+  background-size: cover;
+  vertical-align: middle;
+  transition-duration: .3s;
+}
+
+/* home.html 하트 토글키3 */
+.checkbox-wrap input[type=checkbox] {
+  display: none;
+}
+
+/* home.html 하트 토글키4 */
+.checkbox-wrap input[type=checkbox]:checked + .check-icon { 
+  background-image: url(./images/love_fill.png);
+  background-size: cover;
+}
+
+/* home.html 별 토글키1 */
+.checkbox-wrap1 { 
+  cursor: pointer;
+}
+
+/* home.html 별 토글키2 */
+.checkbox-wrap1 .check-icon1 {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  background: url(./images/star.png) left center no-repeat;
+  background-size: cover;
+  vertical-align: middle;
+  transition-duration: .3s;
+}
+
+/* home.html 별 토글키3 */
+.checkbox-wrap1 input[type=checkbox] {
+  display: none;
+}
+
+/* home.html 별 토글키4 */
+.checkbox-wrap1 input[type=checkbox]:checked + .check-icon1 { 
+  background-image: url(./images/star_fill.png);
+  background-size: cover;
+}
+
+/* 테이블 아랫 줄 없애기 */
+.table-line {
+  border-bottom: none;
+}
+
+/* 이미지 둥글게 */
+.img-radius {
+  border-radius: 30%;
+}
+
+.movie-radius {
+  border-radius: 5%;
+}
