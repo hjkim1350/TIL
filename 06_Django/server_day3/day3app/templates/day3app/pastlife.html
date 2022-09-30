@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>전생에 나는 무엇이었을까?</h1>
+<p>
+<form action="/pastlife_result" method="GET">
+  <label><b>내 이름 입력</b></label><br>
+  <input type="text" name="name">
+  <button type="submit" class="btn btn-primary">전생 확인하기</button>
+</form>
+</p>
+
+{% endblock %}

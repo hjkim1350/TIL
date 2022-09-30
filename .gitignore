@@ -1,2 +1,5 @@
 .assets
 .zip
+server-venv/
+venv/
+day3/

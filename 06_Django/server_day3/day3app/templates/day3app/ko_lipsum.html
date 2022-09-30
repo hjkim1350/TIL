@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>한국 버전 lipsum 생성기</h1>
+<hr>
+<p>
+<form action="/ko_lipsum_result" method="GET">
+  <label><b>문단의 수</b></label><br>
+  <input type="text" name="nums"><br><br>
+  <label><b>문단 별 단어의 수</b></label><br>
+  <input type="text" name="word_nums"><br>
+  <hr>
+  <button type="submit" class="btn btn-primary">생성하기</button>
+</form>
+</p>
+
+{% endblock %}

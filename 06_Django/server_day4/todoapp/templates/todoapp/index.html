@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container-fluid">
+  <!-- 마감기한 달력에서 default값 오늘 날짜로 설정-->
+  <script type="text/javascript">
+    window.onload = function () {
+      today = new Date();
+      console.log("today.toISOString() >>>" + today.toISOString());
+      today = today.toISOString().slice(0, 10);
+      console.log("today >>>> " + today);
+      bir = document.getElementById("now_date");
+      bir.value = today;
+    }
+  </script>
+
+  <h1 class="mt-5 mb-5 text-center"><strong>TODO LIST APPS</strong></h1>
+
+  <!-- 할일 추가 폼 -->
+  <form action="{% url 'todoapp:create' %}">
+    <!-- 할 일 -->
+    <div class="input-group mb-3">
+      <span class="input-group-text" name="content">할 일</span>
+      <input type="text" class="form-control" name="content">
+    </div>
+
+    <!-- 우선순위 select 선택 -->
+    <div class="input-group mb-3">
+      <span class="input-group-text" name="priority">우선순위</span>
+      <select class="form-select bg-secondary" name="priority" style="--bs-bg-opacity: .3;">
+        <option selected>우선순위를 선택하세요</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+      </select>
+    </div>
+
+    <!-- 마감기한 달력에서 선택 -->
+    <div class="input-group mb-3">
+      <span class="input-group-text" name="deadline">마감 기한</span>
+      <input type="date" name="deadline" class="form-control">
+    </div>
+
+    <!-- [할 일 추가] 버튼 -->
+    <div class=" d-grid gap-2">
+      <input type="submit" class="btn btn-outline-primary" value="할 일 추가">
+    </div>
+  </form>
+
+  <div class="mt-5">
+    <strong> ⭐ 할 일 총 개수:</strong> {{ total }}
+  </div>
+
+  <!-- 할 일 목록 테이블 -->
+  <div>
+    <table class="table mt-2 text-center">
+      <thead>
+        <tr>
+          <th scope="col">글 번호</th>
+          <th scope="col">우선 순위</th>
+          <th scope="col">할 일 내용</th>
+          <th scope="col">생성 날짜</th>
+          <th scope="col">마감 기한</th>
+          <th scope="col">진행 상태</th>
+          <th scope="col">상태 변경</th>
+          <th scope="col">삭제</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for todo in todos %}
+        <tr>
+          <th scope="row">{{ todo.id }}</th>
+          <td>{{ todo.priority }}</td>
+          <td>{{ todo.content }}</td>
+          <td>{{ todo.created_at }}</td>
+          <td>{{ todo.deadline }}</td>
+          <td>{{ todo.completed }}</td>
+          <td>
+            <a href="{% url 'todoapp:update' todo.pk %}" class="btn btn-primary mod" style="text-decoration:none"
+              type="submit">
+              상태 변경
+            </a>
+          </td>
+          <td>
+            <a href="{% url 'todoapp:delete' todo.pk %}" class="btn btn-danger" style="text-decoration:none">
+              삭제
+            </a>
+          </td>
+        </tr>
+        {% endfor %}
+
+      </tbody>
+    </table>
+  </div>
+
+</div>
+{% endblock %}
