@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>글쓰기</h1>
+
+<form action="{% url 'articles:create' %}" method="POST">
+  {% csrf_token %}
+  <!-- .as_p 옵션은 <p> 태그 안에 결과를 담는다는 의미-->
+  {{ article_form.as_p }}
+
+  <!-- <label for="title">제목: </label> -->
+  <!-- <input type="text" name="title" id="title"> -->
+  <!-- <input type="text" name="title" id="title" required> -->
+
+  <!-- <hr> -->
+
+  <!-- <label for="content">내용: </label> -->
+  <!-- <textarea name="content" id="content" cols="30" row="10"></textarea> -->
+  <!-- <textarea name="content" id="content" cols="30" row="10" required></textarea> -->
+  <input type="submit" value="글쓰기">
+</form>
+
+{% endblock %}

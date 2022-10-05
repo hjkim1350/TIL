@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+
+{% load static %}
+<h1>게시판</h1>
+<img src="{% static 'images/apparel.jpeg' %}" alt="" style="height:30rem">
+<hr>
+
+<a href="{% url 'articles:create' %}">글쓰기</a>
+<hr>
+
+<!-- for문의 articles는 views.py에 정의한 index 함수의 return render 함수의 context 값-->
+<!-- 이때 context dictionary에 articles 키를 담은 내역을 가져오는 것으로 이해 -->
+{% for article in articles %}
+<h3><a href="{% url 'articles:detail' article.pk %}">{{ article.title }}</a></h3>
+<p>{{ article.create_at }} | {{ article.updated_at }}</p>
+<hr>
+{% endfor %}
+{% endblock %}

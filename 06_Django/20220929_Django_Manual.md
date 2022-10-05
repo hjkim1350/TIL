@@ -344,7 +344,7 @@
 18. index.html에 base.html 확장하여 base.html 값을 가져오도록 설정
 
     ```html
-    # 위치: server_day4\todoapp\index.html
+    # 위치: server_day4\templates\todoapp\index.html
     
     {% extends 'base.html' %}
     {% block content %}
