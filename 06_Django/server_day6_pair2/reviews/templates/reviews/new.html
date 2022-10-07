@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block body %}
+  {% load django_bootstrap5 %}
+
+  <h1>리뷰 쓰기</h1>
+  <hr>
+
+  <form action="{% url 'reviews:create' %}" method="POST">
+    {% csrf_token %}
+    {% bootstrap_form movie_form %}
+    <!-- {{ movie_form.as_p }} -->
+    <div class='d-flex justify-content-between'>
+      {% comment %} 홈버튼 {% endcomment %}
+      {% url 'reviews:index' as index %}
+      {% bootstrap_button "홈으로" button_type="link" href=index button_class="btn-dark" %}
+      {% bootstrap_button "리뷰 작성하기" button_type="submit" button_class="btn-dark" %}
+    </div>
+  </form>
+
+
+{% endblock body %}
