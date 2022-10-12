@@ -1,5 +1,11 @@
 {% extends 'base.html' %}
 {% block body %}
 <h1>게시판</h1>
-<a href="{% url 'articles:new' %}">글쓰기</a>
+<a href="{% url 'articles:create' %}">글쓰기</a>
+{% for article in articles %}
+<h3><a href="{% url 'articles:detail' articles.pk %}">{{ article.title }}</a></h3>
+<p>글 번호: {{ article.pk }}</p>
+<p>{{ article.created_at }} | {{ article.updated_at }}</p>
+<hr>
+{% endfor %}
 {% endblock %}
