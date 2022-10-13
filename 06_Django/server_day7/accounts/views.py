@@ -1,5 +1,8 @@
 from contextlib import redirect_stderr
 from django.shortcuts import render, redirect
+
+# from accounts.models import User
+from django.contrib.auth import get_user_model
 # from django.contrib.auth.forms import UserCreationForm
 from .forms import CustomUserCreationForm 
 
@@ -18,4 +21,8 @@ def signup(request):
     return render(request, 'accounts/signup.html', context)
 
 def detail(request, pk):
-    return render(request, 'accounts/detail.html')
+    user = get_user_model().objects.get(pk=pk)
+    context = {
+        'user': user
+    }
+    return render(request, 'accounts/detail.html', context)
