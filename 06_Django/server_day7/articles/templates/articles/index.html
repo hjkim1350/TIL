@@ -1,8 +1,20 @@
 {% extends 'base.html' %}
+{% load django_bootstrap5 %}
+
 {% block body %}
-<h1>게시판</h1>
+<h1 class="fw-bold mt-3">게시판</h1>
 <a href="{% url 'accounts:signup' %}">회원가입</a>
+<a href="{% url 'accounts:login' %}">로그인</a>
+<form action="{% url 'accounts:logout' %}" method="POST">
+    {% csrf_token %}
+    <input type="submit" value="로그아웃">
+</form>
+<hr>
+<h3>안녕하세요, {{ user }}님. 어서오세요.</h3>
+<hr>
 <a href="{% url 'articles:create' %}">글쓰기</a>
+<hr>
+
 {% for article in articles %}
 <h3><a href="{% url 'articles:detail' article.pk %}">{{ article.title }}</a></h3>
 <p>글 번호: {{ article.pk }}</p>
