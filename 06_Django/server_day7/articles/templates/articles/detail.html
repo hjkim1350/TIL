@@ -5,6 +5,7 @@
 <h3>{{ article.title }}</h3>
 <p>{{ article.pk }}번째 글</p>
 <p>{{ article.created_at }} | {{ article.updated_at }}</p>
+<p>[작성자] {{ article.user.username }}</p>
 <hr>
 {% if article.image %}
 <img src="{{ article.image.url }}" alt="{{ article.image }}">
@@ -14,11 +15,14 @@
 <hr>
 <p class="fw-bold">[작성된 댓글]</p>
 {% for comment in comments %}
-[{{ comment.pk }}]번 댓글: {{ comment.com_content }}
+<a href="{% url 'accounts:detail' article.user.pk %}">{{ article.user.username }}</a>: {{ comment.com_content }}
 <form action="{% url 'articles:comments_delete' article.pk comment.pk %}" method="POST">
   {% csrf_token %}
   <input type="submit" value="삭제">
 </form>
+
+{% empty %}
+<p><span class="text-danger">[System 알림]</span> 앗, 댓글이 없네요!</p>
 {% endfor %}
 <hr>
 <form action="{% url 'articles:comments_create' article.pk %}" method="POST">
@@ -28,9 +32,13 @@
 </form>
 <hr>
 
+{% if request.user == article.user %}
 <p>
   <a href="{% url 'articles:update' article.pk %}">수정하기</a>
   <a href="{% url 'articles:delete' article.pk %}">삭제하기</a>
+</p>
+{% endif %}
+<p>
   <a href="{% url 'articles:index' %}">목록으로</a>
 </p>
 {% endblock body %}

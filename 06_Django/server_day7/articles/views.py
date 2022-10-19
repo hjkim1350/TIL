@@ -1,11 +1,12 @@
-from nntplib import ArticleInfo
 from django.shortcuts import render, redirect
-import articles
 
 from articles.forms import ArticleForm, CommentForm
-from .models import Article, Comment
+from accounts.forms import CustomUserCreationForm
+from articles.models import Article, Comment
+from accounts.models import User
 
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 # Create your views here.
 def index(request):
@@ -20,13 +21,16 @@ def create(request):
     if request.method == "POST":
         article_form = ArticleForm(request.POST, request.FILES)
         if article_form.is_valid():
-            article_form.save()
+            article = article_form.save(commit=False)
+            article.user = request.user
+            article.save()
+            messages.success(request, "글 작성이 완료되었습니다.")
             return redirect('articles:index')
     else:
         article_form = ArticleForm()
     
     context = {
-        'article_form': article_form
+        'article_form': article_form,
     }
 
     return render(request, 'articles/new.html', context=context)
@@ -46,18 +50,23 @@ def detail(request, pk):
 def update(request, pk):
     article = Article.objects.get(pk=pk)
 
-    if request.method == 'POST':
-        article_form = ArticleForm(request.POST, request.FILES, instance=article)
+    if request.user == article.user:
+        if request.method == 'POST':
+            article_form = ArticleForm(request.POST, request.FILES, instance=article)
 
-        if article_form.is_valid():
-            article_form.save()
-            return redirect("articles:detail", article.pk)
+            if article_form.is_valid():
+                article_form.save()
+                return redirect("articles:detail", article.pk)
+        else:
+            article_form = ArticleForm(instance=article)
+        context = {
+            'article_form': article_form
+        }
+        return render(request, 'articles/update.html', context)
+
     else:
-        article_form = ArticleForm(instance=article)
-    context = {
-        'article_form': article_form
-    }
-    return render(request, 'articles/update.html', context)
+        messages.warning(request, '작성자만 수정할 수 있습니다.')
+        return redirect('articles:detail', article.pk)
 
 def delete(request, pk):
     Article.objects.get(id=pk).delete()

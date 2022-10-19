@@ -1,4 +1,16 @@
 {% extends 'base.html' %}
+{% load django_bootstrap5 %}
+
 {% block body %}
-<h1>{{ user }}님의 프로필</h1>
+<h1>{{ user.username }}님의 프로필</h1>
+<hr>
+<h3>작성한 글</h3>
+<p class="text-muted">{{ user.article_set.count }}개를 작성하였습니다.</p>
+{% for article in user.article_set.all %}
+<p>
+    No.{{ forloop.counter }}
+    <a href="{% url 'articles:detail' article.pk %}">{{ article.title }}</a>
+</p>
+{% endfor %}
+
 {% endblock body %}
