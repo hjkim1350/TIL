@@ -2,7 +2,6 @@ from pyexpat import model
 from django.db import models
 from imagekit.models import ProcessedImageField
 from imagekit.processors import Thumbnail
-
 from django.conf import settings
 
 # Create your models here.
@@ -20,6 +19,8 @@ class Article(models.Model):
         format='PNG',
         options={'quality': 90},
     )
+
+    like_users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='like_articles')
 
 # 댓글
 class Comment(models.Model):

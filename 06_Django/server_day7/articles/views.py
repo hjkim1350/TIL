@@ -86,3 +86,15 @@ def comments_delete(request, article_pk, comment_pk):
     comment = Comment.objects.get(pk=comment_pk)
     comment.delete()
     return redirect('articles:detail', article_pk)
+
+def like_article(request, pk):
+    article = Article.objects.get(pk=pk)
+    # 만약에 로그인한 유저가 이 글을 좋아요를 눌렀다면,
+    if request.user in article.like_users.all():
+        # 좋아요 삭제하고
+        article.like_users.remove(request.user)
+    else:
+        # 좋아요 추가하고
+        article.like_users.add(request.user)
+    # 상세 페이지로 redirect
+    return redirect('articles:detail', pk)
