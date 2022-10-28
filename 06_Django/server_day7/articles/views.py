@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
 
-from articles.forms import ArticleForm, CommentForm
+from .forms import ArticleForm, CommentForm
 from accounts.forms import CustomUserCreationForm
-from articles.models import Article, Comment
+from .models import Article, Comment
 from accounts.models import User
 
 from django.contrib.auth.decorators import login_required

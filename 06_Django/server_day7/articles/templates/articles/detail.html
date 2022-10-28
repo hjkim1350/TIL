@@ -7,7 +7,7 @@
 <p>{{ article.created_at }} | {{ article.updated_at }}</p>
 <p>[작성자] {{ article.user.username }}</p>
 
-<a href="{% url 'articles:like_article' article.pk %}">
+<a href="{% url 'articles:like_article' article.pk %}" style="text-decoration:none">
 {% if request.user in article.like_users.all %}
   <i class="bi bi-chat-square-heart-fill"></i>
 {% else %}
@@ -37,7 +37,8 @@
 <form action="{% url 'articles:comments_create' article.pk %}" method="POST">
 {% csrf_token %}
 {% bootstrap_form comment_form %}
-<input type="submit" value="댓글 작성">
+{% bootstrap_button button_type='submit' content='댓글 작성' %}
+{% comment %} <input type="submit" value="댓글 작성"> {% endcomment %}
 </form>
 <hr>
 
