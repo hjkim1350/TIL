@@ -1,4 +1,3 @@
-from pyexpat import model
 from django.db import models
 from imagekit.models import ProcessedImageField
 from imagekit.processors import Thumbnail
