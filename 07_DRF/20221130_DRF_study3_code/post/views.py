@@ -75,6 +75,12 @@ def comment_create(request, post_pk):
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
+# (테스트 확인용) 대댓글 목록 확인하기 - 로그인 필요
+@api_view(['GET'])
+def recomment_list(request):
+    recomment = Comment.objects.exclude(parent_comment_id=None)
+    serializer = CommentSerializer(recomment, many=True)
+    return Response(serializer.data)
 
 # 대댓글 작성하기 - 로그인 필요
 @api_view(['POST'])

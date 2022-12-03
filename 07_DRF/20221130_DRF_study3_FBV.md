@@ -342,10 +342,8 @@ def signup(request):
 def login(request):
     username = request.data.get('username')
     password = request.data.get('password')
-    print(username, password)
     user = authenticate(username=username, password=password)
 
-    print(user)
     if user is None:
         return Response({'message': '아이디 또는 비밀번호가 일치하지 않습니다.'}, status=status.HTTP_401_UNAUTHORIZED)
 
@@ -355,6 +353,8 @@ def login(request):
     return Response({'refresh_token': str(refresh),
                      'access_token': str(refresh.access_token), }, status=status.HTTP_200_OK)
 ```
+
+- 로그인 시, authenticate() 함수에 올바른 user, password를 입력해도 None을 출력함. 그 이유는 password에 입력한 input값이 plaintext로 넘어가기 때문임. 이를 Django 패스워드 암호화알고리즘인 SHA256으로 일방향 암호화한 후 넘겨줘야할 것으로 보임. superuser로 생성한 admin의 경우 정확한 이유는 모르겠으나 백단에서 처리를 해주는지 정상 동작함.
 
 
 
@@ -382,3 +382,112 @@ urlpatterns = [
 > DRF의 인증, 권한을 잘 설명해둔 블로그.
 
 https://velog.io/@duo22088/DRF-Authentication-%EA%B3%BC-Permissons
+
+
+
+> 댓글, 대댓글
+
+```python
+# post/models.py
+from django.db import models
+from django.conf import settings
+
+class Comment(models.Model):
+    content = models.CharField(max_length=300)
+    created_at = models.DateTimeField(auto_now_add=True)
+    article = models.ForeignKey(Post, on_delete=models.CASCADE, default="")
+    comment_user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, default="")
+    parent_comment = models.ForeignKey('self', on_delete=models.CASCADE,  related_name='recomment', null=True)
+```
+
+
+
+```python
+# post/serializers.py
+from rest_framework import serializers
+from .models import Comment
+
+class CommentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Comment
+        fields = '__all__'
+
+class RecommentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Comment
+        fields = '__all__'
+```
+
+
+
+```python
+from .models import Comment
+from .serializers import CommentSerializer, RecommentSerializer
+
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.decorators import api_view
+
+
+# (테스트 확인용) 댓글, 대댓글 목록 확인하기 - 로그인 필요
+@api_view(['GET'])
+def comment_list(request):
+    comment = Comment.objects.all()
+    serializer = CommentSerializer(comment, many=True)
+    return Response(serializer.data)
+
+# 댓글 작성하기 - 로그인 필요
+@api_view(['POST'])
+def comment_create(request, post_pk):
+    post = Post.objects.get(pk=post_pk)
+    serializer = CommentSerializer(data=request.data)
+
+    if serializer.is_valid(raise_exception=True):
+        serializer.validated_data['article'] = post
+        serializer.validated_data['comment_user'] = request.user
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+# (테스트 확인용) 대댓글 목록 확인하기 - 로그인 필요
+@api_view(['GET'])
+def recomment_list(request):
+    recomment = Comment.objects.exclude(parent_comment_id=None)
+    serializer = CommentSerializer(recomment, many=True)
+    return Response(serializer.data)
+
+# 대댓글 작성하기 - 로그인 필요
+@api_view(['POST'])
+def recomment_create(request, post_pk, comment_pk):
+    post = Post.objects.get(pk=post_pk)
+    serializer = RecommentSerializer(data=request.data)
+
+    if serializer.is_valid(raise_exception=True):
+        serializer.validated_data['article'] = post
+        serializer.validated_data['comment_user'] = request.user
+        serializer.validated_data['parent_comment_id'] = comment_pk
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+```
+
+
+
+```python
+# post/urls.py
+from django.urls import path
+from . import views
+
+app_name = 'post'
+
+urlpatterns = [
+    path('comment/', views.comment_list),
+    path('<int:post_pk>/comment/create/', views.comment_create),
+    path('recomment/', views.recomment_list),
+    path('<int:post_pk>/comment/<int:comment_pk>/recomment/create/', views.recomment_create),
+]
+```
+
+
+
+> Function Based View로 코드 작성해본 나의 생각
+
+- form으로 처리하는 것과 코드는 크게 다른 것 같지 않음. 처리해주는 데이터가 form으로 넘어오느냐 serializer로 넘어오느냐의 차이인듯. 물론 form과 serializer가 다루는 데이터 또한 다르겠지만 큰 틀은 똑같은 것 같음. 다만 이제 VUE로 넘어가서 VUE와 DRF의 연동 방식이 관건으로 예상됨.
