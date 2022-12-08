@@ -17,6 +17,7 @@ def post_list(request):
 
 # 글 생성 - 로그인 필요
 @api_view(['POST'])
+@permission_classes([AllowAny])
 def post_create(request):
     serializer = PostSerializer(data=request.data)
 
@@ -27,6 +28,7 @@ def post_create(request):
 
 # 글 상세 내용 확인 - 로그인 필요
 @api_view(['GET'])
+@permission_classes([AllowAny])
 def post_detail(request, pk):
     try:
         post = Post.objects.get(pk=pk)
@@ -38,6 +40,7 @@ def post_detail(request, pk):
     
 # 글 수정 - 로그인 필요
 @api_view(['PUT'])
+@permission_classes([AllowAny])
 def post_update(request, pk):
     post = Post.objects.get(pk=pk)
     serializer = PostSerializer(post, request.data)
@@ -49,6 +52,7 @@ def post_update(request, pk):
 
 # 글 삭제 - 로그인 필요
 @api_view(['DELETE'])
+@permission_classes([AllowAny])
 def post_delete(request, pk):
     post = Post.objects.get(pk=pk)
     
@@ -58,6 +62,7 @@ def post_delete(request, pk):
 
 # (테스트 확인용) 댓글, 대댓글 목록 확인하기 - 로그인 필요
 @api_view(['GET'])
+@permission_classes([AllowAny])
 def comment_list(request):
     comment = Comment.objects.all()
     serializer = CommentSerializer(comment, many=True)
@@ -65,6 +70,7 @@ def comment_list(request):
 
 # 댓글 작성하기 - 로그인 필요
 @api_view(['POST'])
+@permission_classes([AllowAny])
 def comment_create(request, post_pk):
     post = Post.objects.get(pk=post_pk)
     serializer = CommentSerializer(data=request.data)
@@ -77,6 +83,7 @@ def comment_create(request, post_pk):
 
 # (테스트 확인용) 대댓글 목록 확인하기 - 로그인 필요
 @api_view(['GET'])
+@permission_classes([AllowAny])
 def recomment_list(request):
     recomment = Comment.objects.exclude(parent_comment_id=None)
     serializer = CommentSerializer(recomment, many=True)
@@ -84,6 +91,7 @@ def recomment_list(request):
 
 # 대댓글 작성하기 - 로그인 필요
 @api_view(['POST'])
+@permission_classes([AllowAny])
 def recomment_create(request, post_pk, comment_pk):
     post = Post.objects.get(pk=post_pk)
     serializer = RecommentSerializer(data=request.data)

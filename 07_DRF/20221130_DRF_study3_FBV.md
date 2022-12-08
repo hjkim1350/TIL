@@ -469,7 +469,14 @@ def recomment_create(request, post_pk, comment_pk):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 ```
 
+- serializer 객체 접근 방식
 
+1) initial_data
+   - 유효성 검사를 하기 전에 필드에 접근 가능
+2) validated_data
+   - 유효성 검사를 통과한 필드에 접근 가능
+3) data
+   - 유효성 검사를 통과하고 save된 필드에 접근 가능
 
 ```python
 # post/urls.py
